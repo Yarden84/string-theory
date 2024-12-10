@@ -74,7 +74,7 @@ export default function Neck(props) {
             for (let i = 0; i < notesMatrix[prop].length; i++) {
                 console.log('notesMatrix[prop][i]: ', notesMatrix[prop][i]);
                 if (notesMatrix[prop][i] === note) {
-                    console.log('match: ', note);
+                    console.log('match2: ', note);
                 }
             }
         }

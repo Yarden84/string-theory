@@ -1,28 +1,59 @@
 .neck-container {
     width: 90vw;
-    height: 100px;
+    height: fit-content;
     display: flex;
 
     .neck {
-        width: fit-content;
-        height: 100%;
+        width: 100%;
+        height: fit-content;
+        display: grid;
+        grid-template-columns: 300px repeat(auto-fill, 100px);
+        background-color: #975a0a;
         margin: auto;
+        border-top: 1px solid #000;
+        border-left: 1px solid #000;
+        border-radius: 7px;
+        overflow: hidden;
         position: relative;
 
-        .frets-container,
         .strings-container {
+            width: 100%;
             height: 100%;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: space-around;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            .string {
+                width: 100%;
+                height: 2px;
+                background-color: #fff;
+            }
         }
 
-        .frets-container {
-            width: fit-content;
+        .note {
+            height: 50px;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            position: relative;
 
-            .fret {
-                height: 100%;
-                background-color: #dc7230aa;
-                border-right: 1px solid #000;
+            &.dot {
+                &::after {
+                    content: '';
+                    width: 20px;
+                    height: 20px;
+                    background-color: #006400;
+                    border-radius: 50%;
+                    position: absolute;
+                    bottom: 50%;
+                    right: 50%;
+                    transform: translate(50%, 50%);
+                }
             }
         }
     }

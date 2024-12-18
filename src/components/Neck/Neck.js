@@ -21,17 +21,7 @@ export default function Neck(props) {
 
     const chordData = Chord.get(chordNote + chordMode);
 
-    console.log("chordData: ", chordData);
-
-
-
-
     for (let i = 0; i < stringsNum; i++) {
-        console.log('tunning: ', tunning);
-        console.log('stringsNum - 1 - i: ', stringsNum - 1 - i);
-        // let fretBoardNote = Note.transpose(tunning[stringsNum - 1 - i], "2m");
-        // console.log('tunning[stringsNum - 1 - i]: ', tunning[stringsNum - 1 - i]);
-        // console.log('fretBoardNote: ', fretBoardNote);
         let scale = Scale.get(tunning[stringsNum - 1 - i] + ' chromatic');
         let division = Math.floor(fretsNum / scale.notes.length);
         let remainder = fretsNum % scale.notes.length;
@@ -46,8 +36,6 @@ export default function Neck(props) {
 
         for (let k = 0; k < fretsNum; k++) {
             notesLocal.push(<div className={'note ' + (chordData.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '')} key={i + '-' + k} data-note={notesMatrix[i][k + 1]}></div>);
-            // console.log('notesMatrix[i][k]: ', notesMatrix[i][k]);
-            // console.log('chordData.notes.indexOf(notesMatrix[i][k]: ', chordData.notes.indexOf(notesMatrix[i][k]));
         }
 
         stringsLocal.push(<div className='string' key={i}></div>)

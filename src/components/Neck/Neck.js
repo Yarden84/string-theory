@@ -5,44 +5,49 @@ import { Chord, Scale } from "tonal";
 
 export default function Neck(props) {
     const neckEle = useRef(null);
-    const fretsNum = props.frets;
-    const stringsNum = props.strings;
-    const tunning = props.tunning;
-    const chordNote = props.chordNote;
-    const chordMode = props.chordMode;
-    const fretsWidthsArr = [];
+    let fretsNum = props.neckData.frets;
+    let stringsNum = props.neckData.strings;
+    let tunning = props.neckData.tunning;
+    let chordNote = props.neckData.chordNote;
+    let chordMode = props.neckData.chordMode;
+    let fretsWidthsArr = [];
     const [fretsWidths, setFretsWidths] = useState('');
-    const notesLocal = [];
+    let notesLocal = [];
     const [notes, setNotes] = useState([]);
-    const stringsLocal = [];
+    let stringsLocal = [];
     const [strings, setStrings] = useState([]);
 
     let notesMatrix = {};
 
     const chordData = Chord.get(chordNote + chordMode);
 
-    for (let i = 0; i < stringsNum; i++) {
-        let scale = Scale.get(tunning[stringsNum - 1 - i] + ' chromatic');
-        let division = Math.floor(fretsNum / scale.notes.length);
-        let remainder = fretsNum % scale.notes.length;
+    function setup() {
+        fretsWidthsArr = [];
+        notesLocal = [];
+        stringsLocal = [];
 
-        notesMatrix[i] = [];
+        for (let i = 0; i < stringsNum; i++) {
+            let scale = Scale.get(tunning[stringsNum - 1 - i] + ' chromatic');
+            let division = Math.floor(fretsNum / scale.notes.length);
+            let remainder = fretsNum % scale.notes.length;
 
-        for (let j = 0; j < division; j++) {
-            notesMatrix[i] = [...notesMatrix[i], ...scale.notes];
+            notesMatrix[i] = [];
+
+            for (let j = 0; j < division; j++) {
+                notesMatrix[i] = [...notesMatrix[i], ...scale.notes];
+            }
+
+            notesMatrix[i] = [...notesMatrix[i], ...scale.notes.slice(0, remainder)];
+
+            for (let k = 0; k < fretsNum; k++) {
+                notesLocal.push(<div className={'note ' + (chordData.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '')} key={i + '-' + k} data-note={notesMatrix[i][k + 1]}></div>);
+            }
+
+            stringsLocal.push(<div className='string' key={i}></div>)
         }
-
-        notesMatrix[i] = [...notesMatrix[i], ...scale.notes.slice(0, remainder)];
-
-        for (let k = 0; k < fretsNum; k++) {
-            notesLocal.push(<div className={'note ' + (chordData.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '')} key={i + '-' + k} data-note={notesMatrix[i][k + 1]}></div>);
-        }
-
-        stringsLocal.push(<div className='string' key={i}></div>)
     }
 
-
-    useEffect(() => {
+    function setNeck() {
         for (let i = 0; i < fretsNum; i++) {
             const neckWidth = neckEle.current.offsetWidth;
 
@@ -50,11 +55,14 @@ export default function Neck(props) {
         }
 
         setFretsWidths(fretsWidthsArr.join('fr ') + 'fr');
+        setNotes(notesLocal);
+        setStrings(stringsLocal);
+    }
 
-        setNotes([...notes, ...notesLocal])
-        setStrings([...strings, ...stringsLocal]);
-    }, []);
-
+    useEffect(() => {
+        setup();
+        setNeck();
+    }, [props.neckData]);
 
     return (
         <div className='neck-container' ref={neckEle}>

@@ -1,13 +1,6 @@
-// import React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-
+import { useState, useEffect } from 'react';
 import { Scale, ChordType } from "tonal";
+import Counter from './Counter/Counter';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -19,85 +12,90 @@ import './Form.scss';
 
 
 export default function Form(props) {
+    let formData = {
+        ...props.neckData
+    }
 
     const scale = Scale.get('C chromatic');
 
-    const notes = scale.notes.map(note => <MenuItem value={note}>{note}</MenuItem>)
+    const notes = scale.notes.map(note => <option value={note}>{note}</option>)
 
-    const chordTypes = ChordType.all().map(item => <MenuItem value={item.aliases[0]}>{item.aliases[0]}</MenuItem>);
+    const chordTypes = ChordType.all().map(item => <option value={item.name}>{item.aliases[0]}</option>);
 
-    console.log('scale: ', scale);
+    const [strings, setStrings] = useState(formData.strings);
+    const [frets, setFrets] = useState(formData.frets);
+    const [note, setNote] = useState(formData.chordNote);
+    const [chordType, setChordType] = useState(formData.chordMode);
 
-    console.log('chordTypes: ', chordTypes);
+    useEffect(() => {
+        formData.strings = strings;
+    }, [strings]);
 
-    let formData = {
-        // strings: 6,
-        // frets: 22,
-        // tunning: ['E', 'A', 'D', 'G', 'B', 'E'],
-        // chordNote: 'C',
-        // chordMode: 'major'
-        ...props.neckData
-    }
+    useEffect(() => {
+        formData.frets = frets;
+    }, [frets]);
+
+    useEffect(() => {
+        formData.chordNote = note;
+    }, [note]);
+
+    useEffect(() => {
+        formData.chordMode = chordType
+    }, [chordType]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form Submitted:', formData);
         props.onFormSubmit(formData);
-        console.log("44444");
     };
+
+    // const handleCounter = () => {
+
+    // }
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box className="form-container">
-                <TextField
-                    className='form-item'
-                    label="Strings"
-                    type="number"
-                    variant="standard"
-                    defaultValue={formData.strings}
-                    onChange={(e) => {
-                        formData.strings = e.target.value;
-                    }}
-                />
-
-                <TextField
-                    className='form-item'
-                    label="Frets"
-                    type="number"
-                    variant="standard"
-                    defaultValue={formData.frets}
-                    onChange={(e) => {
-                        formData.frets = Number(e.target.value);
-                    }}
-                />
-
-                <FormControl fullWidth className='form-item'>
-                    <InputLabel>Notes</InputLabel>
-                    <Select
-                        value={formData.chordNote}
+            <div className="form-container">
+                {/* <div className="form-item">
+                    <label>Strings</label>
+                    <input type="number" value={strings}
                         onChange={(e) => {
-                            formData.chordNote = e.target.value;
-                        }}
-                    >
-                        {notes}
-                    </Select>
-                </FormControl>
-
-                <FormControl fullWidth className='form-item'>
-                    <InputLabel>Types</InputLabel>
-                    <Select
-                        label=""
-                        value={formData.chordMode}
+                            setStrings(e.target.value)
+                        }} />
+                </div> */}
+                <div className="form-item">
+                    <Counter data={Array.from(Array(80).keys())} startVal={strings} countChange={(stringsNum) => {
+                        setStrings(stringsNum)
+                    }} />
+                </div>
+                {/* <div className="form-item">
+                    <label>Frets</label>
+                    <input type="number" value={frets}
                         onChange={(e) => {
-                            formData.chordMode = e.target.value;
-                        }}
-                    >
-                        {chordTypes}
-                    </Select>
-                </FormControl>
+                            setFrets(e.target.value)
+                        }} />
+                </div> */}
+                <div className="form-item">
+                    <Counter data={Array.from(Array(100).keys())} startVal={frets} countChange={(fretsNum) => {
+                        setFrets(fretsNum)
+                    }} />
+                </div>
 
-                <Button variant="outlined" type="submit">Submit</Button>
-            </Box>
+
+                <select name="notes" onChange={(e) => {
+                    setNote(e.target.value);
+                }} className="form-item">
+                    {notes}
+                </select>
+
+                <select name="chordType" onChange={(e) => {
+                    setChordType(e.target.value);
+                }} className="form-item">
+                    {chordTypes}
+                </select>
+
+                <input type="submit" value="Submit" className='submit-btn' />
+            </div>
         </form>
     );
 }

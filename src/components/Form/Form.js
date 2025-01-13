@@ -49,10 +49,6 @@ export default function Form(props) {
         props.onFormSubmit(formData);
     };
 
-    // const handleCounter = () => {
-
-    // }
-
     return (
         <form onSubmit={handleSubmit}>
             <div className="form-container">

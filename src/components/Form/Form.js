@@ -26,6 +26,20 @@ export default function Form(props) {
     const [frets, setFrets] = useState(formData.frets);
     const [note, setNote] = useState(formData.chordNote);
     const [chordType, setChordType] = useState(formData.chordMode);
+    const [tunning, setTunning] = useState(formData.tunning);
+
+    const tuners = tunning.map((item, i) => {
+        const j = scale.notes.indexOf(item);
+        console.log('j: ', j);
+        console.log('item: ', item);
+        console.log('scale.notes: ', scale.notes);
+        console.log('scale.notes[j]: ', scale.notes[j]);
+        return <Counter data={[...scale.notes]} startVal={j} countChange={(tunningNote) => {
+            let tunningLocal = [...tunning];
+            tunningLocal[i] = tunningNote; 
+            setTunning(tunningLocal)
+        }} />
+    })
 
     useEffect(() => {
         formData.strings = strings;
@@ -43,6 +57,10 @@ export default function Form(props) {
         formData.chordMode = chordType
     }, [chordType]);
 
+    useEffect(() => {
+        formData.tunning = [...tunning]
+    }, [tunning]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form Submitted:', formData);
@@ -52,31 +70,20 @@ export default function Form(props) {
     return (
         <form onSubmit={handleSubmit}>
             <div className="form-container">
-                {/* <div className="form-item">
-                    <label>Strings</label>
-                    <input type="number" value={strings}
-                        onChange={(e) => {
-                            setStrings(e.target.value)
-                        }} />
-                </div> */}
+                <div className="tuner-container">
+                    {tuners}
+                </div>
+
                 <div className="form-item">
                     <Counter data={Array.from(Array(80).keys())} startVal={strings} countChange={(stringsNum) => {
                         setStrings(stringsNum)
                     }} />
                 </div>
-                {/* <div className="form-item">
-                    <label>Frets</label>
-                    <input type="number" value={frets}
-                        onChange={(e) => {
-                            setFrets(e.target.value)
-                        }} />
-                </div> */}
                 <div className="form-item">
                     <Counter data={Array.from(Array(100).keys())} startVal={frets} countChange={(fretsNum) => {
                         setFrets(fretsNum)
                     }} />
                 </div>
-
 
                 <select name="notes" onChange={(e) => {
                     setNote(e.target.value);

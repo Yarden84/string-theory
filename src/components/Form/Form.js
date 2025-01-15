@@ -28,15 +28,10 @@ export default function Form(props) {
     const [chordType, setChordType] = useState(formData.chordMode);
     const [tunning, setTunning] = useState(formData.tunning);
 
-    const tuners = tunning.map((item, i) => {
-        const j = scale.notes.indexOf(item);
-        console.log('j: ', j);
-        console.log('item: ', item);
-        console.log('scale.notes: ', scale.notes);
-        console.log('scale.notes[j]: ', scale.notes[j]);
-        return <Counter data={[...scale.notes]} startVal={j} countChange={(tunningNote) => {
+    const tuners = tunning.map((item, index) => {     
+        return <Counter data={[...scale.notes]} startVal={scale.notes.indexOf(item)} countChange={(tunningNote) => {
             let tunningLocal = [...tunning];
-            tunningLocal[i] = tunningNote; 
+            tunningLocal[index] = tunningNote; 
             setTunning(tunningLocal)
         }} />
     })

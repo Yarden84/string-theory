@@ -9,6 +9,13 @@
     .tuner-container {
         display: flex;
         flex-direction: column-reverse;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        >div {
+            height: 50px;
+        }
     }
 
     .form-item {

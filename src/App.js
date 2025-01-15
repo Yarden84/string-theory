@@ -19,8 +19,10 @@ function App() {
 
   return (
     <div className="App">
-      <Form neckData={neckData} onFormSubmit={handleFormSubmit} />
-      <Neck neckData={neckData} />
+      <div className="app-content">
+        <Form neckData={neckData} onFormSubmit={handleFormSubmit} />
+        <Neck neckData={neckData} />
+      </div>
     </div>
   );
 }

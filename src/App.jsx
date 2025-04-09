@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 
-import Neck from './components/Neck/Neck';
+import Neck from './components/Neck/Neck.jsx';
 import Form from './components/Form/Form';
 
 function App() {

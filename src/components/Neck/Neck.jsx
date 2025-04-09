@@ -20,8 +20,14 @@ export default function Neck(props) {
     let notesMatrix = {};
 
     const chordData = Chord.get(chordNote + chordMode);
+    
+    // Traditional fret marker positions
+    const markerPositions = [3, 5, 7, 9, 15, 17, 19, 21];
+    const doubleMarkerPosition = 12;
 
     function setup() {
+        console.log("setup**************************");
+        console.log("stringsNum:", stringsNum);
         fretsWidthsArr = [];
         notesLocal = [];
         stringsLocal = [];
@@ -40,7 +46,29 @@ export default function Neck(props) {
             notesMatrix[i] = [...notesMatrix[i], ...scale.notes.slice(0, remainder)];
 
             for (let k = 0; k < fretsNum; k++) {
-                notesLocal.push(<div className={'note ' + (chordData.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '')} key={i + '-' + k} data-note={notesMatrix[i][k + 1]}></div>);
+                // Add fret markers on the middle string (for 6 strings, that's index 2)
+                const isMarker = i === Math.floor(stringsNum / 2) && markerPositions.includes(k + 1);
+                // Add double markers one string above and below the middle for the 12th fret
+                const isDoubleMarker = i === Math.floor(stringsNum / 2) - 1 && k + 1 === doubleMarkerPosition;
+                const isSecondDoubleMarker = i === Math.floor(stringsNum / 2) + 1 && k + 1 === doubleMarkerPosition;
+                
+                console.log('i:', i, 'k:', k + 1, 'isMarker:', isMarker, 'middle string:', Math.floor(stringsNum / 2));
+
+                const classes = [
+                    'note',
+                    chordData.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '',
+                    isMarker ? 'fret-marker' : '',
+                    isDoubleMarker ? 'fret-marker-12 top' : '',
+                    isSecondDoubleMarker ? 'fret-marker-12 bottom' : ''
+                ].filter(Boolean).join(' ');
+
+                notesLocal.push(
+                    <div 
+                        className={classes}
+                        key={i + '-' + k} 
+                        data-note={notesMatrix[i][k + 1]}
+                    ></div>
+                );
             }
 
             stringsLocal.push(<div className='string' key={i}></div>)

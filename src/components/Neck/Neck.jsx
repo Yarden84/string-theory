@@ -8,8 +8,9 @@ export default function Neck(props) {
     let fretsNum = props.neckData.frets;
     let stringsNum = props.neckData.strings;
     let tunning = props.neckData.tunning;
-    let chordNote = props.neckData.chordNote;
-    let chordMode = props.neckData.chordMode;
+    let note = props.neckData.note;
+    let type = props.neckData.type;
+    let mode = props.neckData.mode;
     let fretsWidthsArr = [];
     const [fretsWidths, setFretsWidths] = useState('');
     let notesLocal = [];
@@ -18,16 +19,18 @@ export default function Neck(props) {
     const [strings, setStrings] = useState([]);
 
     let notesMatrix = {};
-
-    const chordData = Chord.get(chordNote + chordMode);
+    const fretboardNotes = mode === 'chords' ? Chord.get(note + type) : Scale.get(note + " " + type);
+    console.log("note", note);
+    console.log("type", type);
+    console.log("mode", mode);
     
-    // Traditional fret marker positions
+    console.log("fretboardNotes", fretboardNotes);
+    console.log("Scale", Scale);
+    
     const markerPositions = [3, 5, 7, 9, 15, 17, 19, 21];
     const doubleMarkerPosition = 12;
 
     function setup() {
-        console.log("setup**************************");
-        console.log("stringsNum:", stringsNum);
         fretsWidthsArr = [];
         notesLocal = [];
         stringsLocal = [];
@@ -46,17 +49,16 @@ export default function Neck(props) {
             notesMatrix[i] = [...notesMatrix[i], ...scale.notes.slice(0, remainder)];
 
             for (let k = 0; k < fretsNum; k++) {
-                // Add fret markers on the middle string (for 6 strings, that's index 2)
+     
                 const isMarker = i === Math.floor(stringsNum / 2) && markerPositions.includes(k + 1);
-                // Add double markers one string above and below the middle for the 12th fret
+
                 const isDoubleMarker = i === Math.floor(stringsNum / 2) - 1 && k + 1 === doubleMarkerPosition;
                 const isSecondDoubleMarker = i === Math.floor(stringsNum / 2) + 1 && k + 1 === doubleMarkerPosition;
                 
-                console.log('i:', i, 'k:', k + 1, 'isMarker:', isMarker, 'middle string:', Math.floor(stringsNum / 2));
 
                 const classes = [
                     'note',
-                    chordData.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '',
+                    fretboardNotes.notes.indexOf(notesMatrix[i][k + 1]) !== -1 ? 'dot' : '',
                     isMarker ? 'fret-marker' : '',
                     isDoubleMarker ? 'fret-marker-12 top' : '',
                     isSecondDoubleMarker ? 'fret-marker-12 bottom' : ''

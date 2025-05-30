@@ -9,8 +9,9 @@ function App() {
     strings: 6,
     frets: 22,
     tunning: ['E', 'A', 'D', 'G', 'B', 'E'],
-    chordNote: 'C',
-    chordMode: 'major'
+    note: 'C',
+    type: 'major',
+    mode: 'chords'
   });
 
   const handleFormSubmit = (data) => {

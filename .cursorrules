@@ -1,0 +1,18 @@
+## Project Overview
+This is a React-based guitar chord visualization app that uses the Tonal library for music theory calculations.
+
+## Code Style Guidelines
+- Use functional components with hooks
+- Prefer arrow functions for components
+- Use descriptive variable and function names
+- Use SCSS for styling with and nest selectors in the same way as the html
+- SCSS style should have the following preferred order of css properties from top to bottom:
+    1. width and height props
+    2. display and other related props (e.g. justify-content)
+    3. bg
+    4. font related props (e.g. font-size, color etc.)
+    5. CSS box model props going from inside to outside - first paddoing, then border, then margin
+    6. position and position related (top, bottom..)
+    7. transform
+    8. Other props such as pointer-events, transition etc
+- Do not add comments to the code

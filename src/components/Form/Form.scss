@@ -2,7 +2,7 @@
     width: 90vw;
     display: flex;
     align-items: center;
-    margin: 0 auto 50px;
+    margin: 20vh auto 50px;
     justify-content: space-between;
 
     .form-item {
@@ -29,13 +29,13 @@
     }
 
     .tuner-container {
+        min-height: 300px;
         display: flex;
         flex-direction: column-reverse;
         position: absolute;
         left: 10px;
         bottom: 0;
         z-index: 10;
-        height: 300px;
         justify-content: space-around;
 
         >div {
@@ -43,6 +43,7 @@
         }
 
         .note-counter-container {
+            min-height: 35px;
             background: none;
             border: none;
             box-shadow: none;

@@ -4,7 +4,7 @@ A modal chord and scale visualization app that uses the Tonal library for music 
 
 ## 🎸 Live Demo
 
-[View Live Demo](https://stringtheory-pben-2x1zlwai--5173--cb7c0bca.local-credentialless.webcontainer.io/)
+[View Live Demo](https://stringtheory-pben-2x1zlwai--5173--cb7c0bca.local-credentialless.webcontainer.io/){:target="_blank" rel="noopener noreferrer"}
 
 ## Features
 

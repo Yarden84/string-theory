@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Neck.scss';
 
-import { Chord, Scale } from "tonal";
+import { Chord, Scale, Note } from "tonal";
 
 export default function Neck(props) {
     const neckEle = useRef(null);
@@ -37,16 +37,17 @@ export default function Neck(props) {
 
         for (let i = 0; i < stringsNum; i++) {
             let scale = Scale.get(tunning[stringsNum - 1 - i] + ' chromatic');
+            console.log("Scale***", scale);
             let division = Math.floor(fretsNum / scale.notes.length);
             let remainder = fretsNum % scale.notes.length;
 
             notesMatrix[i] = [];
 
             for (let j = 0; j < division; j++) {
-                notesMatrix[i] = [...notesMatrix[i], ...scale.notes];
+                notesMatrix[i] = [...notesMatrix[i], ...scale.notes.map(note => note.includes('bb') ? note.replace('bb', '') : note)];
             }
 
-            notesMatrix[i] = [...notesMatrix[i], ...scale.notes.slice(0, remainder)];
+            notesMatrix[i] = [...notesMatrix[i], ...scale.notes.slice(0, remainder).map(note => note.includes('bb') ? note.replace('bb', '') : note)];
 
             for (let k = 0; k < fretsNum; k++) {
      

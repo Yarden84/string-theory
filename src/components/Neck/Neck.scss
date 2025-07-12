@@ -4,6 +4,10 @@
     display: flex;
     margin: 0 auto;
 
+    @media (max-width: 1500px) {
+        width: calc(100vw - 170px);
+    }
+
     .neck {
         width: 100%;
         min-height: 300px;

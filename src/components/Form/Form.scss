@@ -5,6 +5,10 @@
     margin: 20vh auto 50px;
     justify-content: space-between;
 
+    @media (max-width: 1500px) {
+        width: calc(100vw - 170px);
+    }
+
     .form-item {
         display: flex;
         align-items: center;
@@ -21,11 +25,19 @@
     .left-group {
         display: flex;
         gap: 70px;
+
+        @media (max-width: 1500px) {
+            gap: 30px;
+        }
     }
 
     .center-group {
         display: flex;
         gap: 70px;
+
+        @media (max-width: 1500px) {
+            gap: 50px;
+        }
     }
 
     .tuner-container {
